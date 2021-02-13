@@ -1,8 +1,6 @@
 @import "common/variable";
 $avatarSize: 180px;
-$coverMaxHeight: 360px;
-$coverBlurEffect: 20px;
-
+@import "backdrop.scss";
 .post-container {
   .post-item-card {
     margin-bottom: 30px;
@@ -21,22 +19,6 @@ $coverBlurEffect: 20px;
       z-index: 1;
       border-top-left-radius: $borderRadius;
       border-top-right-radius: $borderRadius;
-
-      .post-cover-backdrop {
-        position: absolute;
-        z-index: 1;
-        width: 100%;
-
-        img {
-          width: 100%;
-          height: $coverMaxHeight;
-
-          object-fit: cover;
-          transform: scale(1.2);
-          filter: blur($coverBlurEffect) ;
-        }
-      }
-
       .post-cover-link {
         position: relative;
         z-index: 2;
@@ -45,10 +27,11 @@ $coverBlurEffect: 20px;
 
         // fix white spacer
         font-size: 0;
+        max-height: $coverMaxHeight;
+
       }
 
       .post-cover-img {
-        max-height: $coverMaxHeight;
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
       }
     }
