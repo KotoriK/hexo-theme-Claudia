@@ -1,9 +1,7 @@
 mixin fadeinImg
     script.
         $claudia.fadeInImage(null, $claudia.blurBackdropImg)
-
+        const imgs = document.querySelectorAll('.js-img-fadeIn')
         window.addEventListener('resize', $claudia.throttle(function () {
-            var images = document.querySelectorAll('.js-img-fadeIn')
-
-            images.forEach($claudia.blurBackdropImg)
-        }, 150))
+            imgs.forEach($claudia.blurBackdropImg)
+        }, 300))
