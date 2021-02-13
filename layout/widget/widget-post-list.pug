@@ -1,5 +1,4 @@
 include methods
-
 article.post-container.is-flex.is-justify-content-center.section.container.is-max-widescreen.pt-4.px-2
         div.columns.is-variable.is-1-tablet.is-3-desktop-only.is-2-widescreen.is-full-width
             section.column
@@ -28,7 +27,7 @@ article.post-container.is-flex.is-justify-content-center.section.container.is-ma
                                         if post.date
                                             time.has-text-grey(datetime=post.date.toJSON())= date(post.date, date_format)
                                 p.is-flex-grow-2.mt-2
-                                    = truncate( strip_html(postContent), {length: 360, omission: '..'} )
+                                    = post.excerpt?post.excerpt:truncate( strip_html(postContent), {length: 360, omission: '..'} )
                                 a.button.is-default.mt-2.has-text-weight-semibold(href= postURL)= __('read_more')
 
                     -
@@ -45,11 +44,5 @@ article.post-container.is-flex.is-justify-content-center.section.container.is-ma
             aside.column.is-hidden-mobile.is-4-tablet.is-3-widescreen
                 block sidebar
 block append script
-    script.
-        $claudia.fadeInImage(null, $claudia.blurBackdropImg)
-
-        window.addEventListener('resize', $claudia.throttle(function () {
-            var images = document.querySelectorAll('.js-img-fadeIn')
-
-            images.forEach($claudia.blurBackdropImg)
-        }, 150))
+    include ../img-fadein
+    +fadeinImg

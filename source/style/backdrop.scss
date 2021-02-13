@@ -1,0 +1,17 @@
+$coverMaxHeight: 360px;
+$coverBlurEffect: 20px;
+.post-cover-backdrop {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+  
+    img {
+      width: 100%;
+      height: $coverMaxHeight;
+  
+      object-fit: cover;
+      transform: scale(1.2);
+      filter: blur($coverBlurEffect) ;
+    }
+    overflow: hidden;
+  }

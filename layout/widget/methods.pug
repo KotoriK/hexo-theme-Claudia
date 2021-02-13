@@ -1,5 +1,6 @@
 -
     function getPostCoverImg(post) {
+        if(post.thumbnail)return post.thumbnail
         const $coverImgElRegx = /<img.*?alt="\$cover".*?>/
         const firstImgElRegx = /<img[^>]+src="?([^"\s]+)".*?>/
         const coverImgElement = post.content.match(firstImgElRegx)

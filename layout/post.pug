@@ -16,6 +16,14 @@ block content
         .columns.is-flex-desktop.is-justify-content-center.is-flex-direction-row-reverse
             .column.is-3.is-hidden-mobile(class= tocContent.length < 1 && 'is-hidden')!= tocContent
             .column.is-9
+                include widget/methods
+                    - var imgURL = getPostCoverImg(page)
+                    if imgURL
+                        div.is-relative.is-flex
+                            div.post-cover-backdrop.is-hidden
+                                img(src= imgURL alt="loading..")
+                            p.post-cover.has-text-centered.skeleton(href= postURL)
+                                img.js-img-fadeIn(src= imgURL alt="loading..", data-backdrop="true")
                 header.my-4
                     if page.tags && page.tags.length > 0
                         each tag in page.tags.toArray()
@@ -51,3 +59,5 @@ block content
                         )
 block script
     script(src= url_for("/js/post.js"))
+    include img-fadein
+    +fadeinImg
