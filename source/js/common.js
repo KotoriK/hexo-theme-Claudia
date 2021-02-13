@@ -16,9 +16,7 @@ window.$claudia = {
 
         function loaded(event) {
             var image = event.currentTarget
-            image.style.transition = 'opacity 320ms'
-            image.style.opacity = 1
-
+            image.classList.add('show')
             if (image.parentElement && image.parentElement.classList.contains('skeleton')) {
                 image.parentElement.classList.remove('skeleton')
             }
