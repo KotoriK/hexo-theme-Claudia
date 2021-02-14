@@ -12,24 +12,25 @@ widgets:
 
 # social config
 social:
-  zhihu:
-  twitter: /
-  facebook: /
-  linkedin:
-  instagram: /
-  github: haojen
+#  zhihu:
+#  twitter: /
+#  facebook: /
+#  linkedin:
+#  instagram: /
+  github: kotorik
+  yukicat: cranyk
 
 user:
-  name: Haojen
-  avatar: /images/avatar.jpg
-  location: In the dust
-  description: May the Force be with you
+  name: kotorik
+  avatar: https://cdn.v2ex.com/gravatar/bcd070aa131588dbb3f93aa3490121a8?s=200&d=mm&r=g
+  location: China
+  description:
 
 # documents: https://github.com/utterance/utterances
 # API config: https://utteranc.es/
 comment_utteranc:
   enable: true
-  repo: Haojen/Claudia-theme-blog # your blog repo
+  repo: KotoriK/blog-hexo # your blog repo
 
 # dark
 # light
