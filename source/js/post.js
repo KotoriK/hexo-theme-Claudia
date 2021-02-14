@@ -28,74 +28,72 @@ var $posts = {
 
         return Scroller
     },
-    showTopic: function (evt) {
-        var topicEl = document.getElementById('postTopic')
-        var postTitle = document.getElementById('postTitle')
+    showTopic: (function () {
+        const topicEl = document.getElementById('postTopic')
+        const postTitle = document.getElementById('postTitle')
+        return (evt) => {
+            var postTitleCoordinate = postTitle.getBoundingClientRect()
+            var threshold = postTitle.offsetTop + postTitleCoordinate.height
 
-        var postTitleCoordinate = postTitle.getBoundingClientRect()
-        var threshold = postTitle.offsetTop + postTitleCoordinate.height
+            // show title
+            if (window.pageYOffset > threshold) {
+                var beforeOffsetY = evt && evt.beforeOffsetY
+                var isScrollToTop = beforeOffsetY - window.pageYOffset > 0
 
-        // show title
-        if (window.pageYOffset > threshold) {
-            var beforeOffsetY = evt && evt.beforeOffsetY
-            var isScrollToTop = beforeOffsetY - window.pageYOffset > 0
+                topicEl.classList.remove('is-hidden-topic-bar')
 
-            topicEl.classList.remove('is-hidden-topic-bar')
-
-            if (beforeOffsetY - window.pageYOffset === 0) {
+                if (beforeOffsetY - window.pageYOffset === 0) {
+                    topicEl.classList.remove('is-switch-post-title')
+                    topicEl.classList.remove('is-show-post-title')
+                    if (topicEl.classList.contains('is-show-scrollToTop-tips')) {
+                        topicEl.classList.remove('is-show-scrollToTop-tips')
+                        topicEl.classList.remove('immediately-show')
+                        topicEl.classList.add('is-flash-scrollToTop-tips')
+                    }
+                    else {
+                        topicEl.classList.add('immediately-show')
+                    }
+                }
+                // scroll to up👆
+                else if (isScrollToTop) {
+                    // show scroll to top tips
+                    if (window.pageYOffset > window.innerHeight * 1.5) {
+                        topicEl.classList.remove('immediately-show')
+                        topicEl.classList.remove('is-show-post-title')
+                        topicEl.classList.remove('is-switch-post-title')
+                        topicEl.classList.remove('is-flash-scrollToTop-tips')
+        
+                        topicEl.classList.add('is-show-scrollToTop-tips')                    }
+                    // show post title
+                    else {
+                        topicEl.classList.remove('immediately-show')
+                        topicEl.classList.remove('is-show-post-title')
+                        topicEl.classList.remove('is-show-scrollToTop-tips')
+                        topicEl.classList.remove('is-flash-scrollToTop-tips')
+        
+                        topicEl.classList.add('is-switch-post-title')                    }
+                }
+                // scroll to down👇
+                else if (beforeOffsetY - window.pageYOffset !== 0) {
+                    topicEl.classList.remove('immediately-show')
+                    topicEl.classList.remove('is-switch-post-title')
+                    topicEl.classList.remove('is-show-scrollToTop-tips')
+                    topicEl.classList.remove('is-flash-scrollToTop-tips')
+                    topicEl.classList.add('is-show-post-title')
+                }
+            }
+            else {
+                // hidden all
+                topicEl.classList.remove('is-flash-scrollToTop-tips')
+                topicEl.classList.remove('is-show-scrollToTop-tips')
                 topicEl.classList.remove('is-switch-post-title')
                 topicEl.classList.remove('is-show-post-title')
                 topicEl.classList.remove('immediately-show')
 
-                if (topicEl.classList.contains('is-show-scrollToTop-tips')) {
-                    topicEl.classList.remove('is-show-scrollToTop-tips')
-                    topicEl.classList.add('is-flash-scrollToTop-tips')
-                }
-                else {
-                    topicEl.classList.add('immediately-show')
-                }
-            }
-            // scroll to up👆
-            else if (isScrollToTop) {
-                // show scroll to top tips
-                if (window.pageYOffset > window.innerHeight * 2) {
-                    topicEl.classList.remove('immediately-show')
-                    topicEl.classList.remove('is-show-post-title')
-                    topicEl.classList.remove('is-switch-post-title')
-                    topicEl.classList.remove('is-flash-scrollToTop-tips')
-
-                    topicEl.classList.add('is-show-scrollToTop-tips')
-                }
-                // show post title
-                else {
-                    topicEl.classList.remove('immediately-show')
-                    topicEl.classList.remove('is-show-post-title')
-                    topicEl.classList.remove('is-show-scrollToTop-tips')
-                    topicEl.classList.remove('is-flash-scrollToTop-tips')
-
-                    topicEl.classList.add('is-switch-post-title')
-                }
-            }
-            // scroll to down👇
-            else if (beforeOffsetY - window.pageYOffset !== 0) {
-                topicEl.classList.remove('immediately-show')
-                topicEl.classList.remove('is-switch-post-title')
-                topicEl.classList.remove('is-show-scrollToTop-tips')
-                topicEl.classList.remove('is-flash-scrollToTop-tips')
-                topicEl.classList.add('is-show-post-title')
+                topicEl.classList.add('is-hidden-topic-bar')
             }
         }
-        else {
-            // hidden all
-            topicEl.classList.remove('is-flash-scrollToTop-tips')
-            topicEl.classList.remove('is-show-scrollToTop-tips')
-            topicEl.classList.remove('is-switch-post-title')
-            topicEl.classList.remove('is-show-post-title')
-            topicEl.classList.remove('immediately-show')
-
-            topicEl.classList.add('is-hidden-topic-bar')
-        }
-    },
+    })(),
     catalogueHighlight: function () {
         var directory = document.querySelectorAll('.toc a')
         if (directory.length === 0) {
@@ -166,7 +164,7 @@ var $posts = {
         catalogueHighlight && scrollerInstance.callbacks.push(catalogueHighlight)
 
         scrollerInstance.callbacks.push(this.showTopic)
-        scrollerInstance.callbacks.push(this.scrollProgress(document.getElementById('bar')))
+        scrollerInstance.callbacks.push(this.scrollProgress)
         scrollerInstance.bindScrollEvent()
 
         $claudia.fadeInImage(document.querySelectorAll('.post-content img'))
@@ -180,13 +178,14 @@ var $posts = {
      * 
      * @param {HTMLDivElement} scrollbar 
      */
-    scrollProgress: (scrollbar) => {
-        const doc = document.documentElement;
-        const main =document.getElementsByTagName('main')[0];
+    scrollProgress: (() => {
+        const main = document.getElementsByTagName('main')[0];
+        const scrollbar = document.getElementById('bar')
         return () => {
-        scrollbar.style.width = window.scrollY / (main.clientHeight-window.innerHeight)
-        * 100 + "%"
-    }}
+            scrollbar.style.width = window.scrollY / (main.clientHeight - window.innerHeight)
+                * 100 + "%"
+        }
+    })()
 }
 
 $posts.mounted()
