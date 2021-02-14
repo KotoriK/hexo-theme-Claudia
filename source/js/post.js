@@ -85,7 +85,7 @@ var $posts = {
                 topicEl.classList.add('is-show-post-title')
             }
         }
-        else{
+        else {
             // hidden all
             topicEl.classList.remove('is-flash-scrollToTop-tips')
             topicEl.classList.remove('is-show-scrollToTop-tips')
@@ -149,7 +149,7 @@ var $posts = {
             }
         }
     },
-    smoothScrollToTop: function() {
+    smoothScrollToTop: function () {
         var Y_TopValve = (window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop);
         if (Y_TopValve > 1) {
             window.requestAnimationFrame($posts.smoothScrollToTop);
@@ -166,16 +166,27 @@ var $posts = {
         catalogueHighlight && scrollerInstance.callbacks.push(catalogueHighlight)
 
         scrollerInstance.callbacks.push(this.showTopic)
-
+        scrollerInstance.callbacks.push(this.scrollProgress(document.getElementById('bar')))
         scrollerInstance.bindScrollEvent()
 
         $claudia.fadeInImage(document.querySelectorAll('.post-content img'))
 
         document.getElementById('postTopic').addEventListener('click', this.smoothScrollToTop)
-    },initHighlight:()=>{
+    }, initHighlight: () => {
         Prism.plugins.autoloader.languages_path = 'https://cdn.jsdelivr.net/npm/prismjs@1.23.0/components/';
 
-    }
+    },
+    /**
+     * 
+     * @param {HTMLDivElement} scrollbar 
+     */
+    scrollProgress: (scrollbar) => {
+        const doc = document.documentElement;
+        const main =document.getElementsByTagName('main')[0];
+        return () => {
+        scrollbar.style.width = window.scrollY / (main.clientHeight-window.innerHeight)
+        * 100 + "%"
+    }}
 }
 
 $posts.mounted()

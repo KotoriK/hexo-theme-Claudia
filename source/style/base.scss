@@ -57,5 +57,14 @@
     }
   }
 }
-
+.scrollbar{
+  position: fixed;
+  top: 0;
+  height: 3px;
+  background-color: #505050;
+  will-change: width;
+  transition-duration: 1s,1s;
+  transition-property: width, background-color;
+  z-index: 99999;
+}
 @import "widget-header";

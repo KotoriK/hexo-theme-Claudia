@@ -10,6 +10,7 @@ block topic
         p.is-full-height.is-flex-shrink-0.is-flex.is-align-items-center.is-justify-content-center= __('click_back_to_the_top')
 
 block content
+    div.scrollbar#bar
     - var tocContent = toc(page.content, {list_number: true})
 
     main.container.is-max-widescreen.content.section.post-page.pt-4.px-4
