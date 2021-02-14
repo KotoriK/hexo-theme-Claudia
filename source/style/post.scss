@@ -56,6 +56,9 @@ $lineColor: var(--border-line-color);
       max-height: $coverMaxHeight;
     }
   }
+  .post-cover-backdrop{
+    width: 100%;
+  }
   .post-content {
     code {
       border-radius: 4px;
@@ -64,17 +67,11 @@ $lineColor: var(--border-line-color);
 
     pre {
       padding: 0;
-      background: transparent;
+      background: var(--pre-code-bg-color);
 
       code {
-        padding: 15px;
-        border: 1px solid $lineColor;
-        background: var(--pre-code-bg-color);
+        background: transparent;
       }
-    }
-
-    .hljs {
-      color: var(--second-text-color);
     }
 
     img {

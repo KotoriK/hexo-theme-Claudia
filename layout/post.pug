@@ -1,8 +1,8 @@
 extends widget/base
 block append head
+  - var prismHead = 'https://cdn.jsdelivr.net/npm/prismjs@1.23.0/'
   link(rel='stylesheet', href= url_for('/style/post.css'))
-  link(rel='stylesheet', href= url_for('/style/themes/highlight-theme-light.css'))
-  script(src= url_for("/js/highlight.pack.js"))
+  link(rel='stylesheet',href=prismHead+'themes/prism.min.css')
 block topic
     div#postTopic.is-full-height
         - var title = truncate( page.title, {length: 65, omission: '..'} ) || ''
@@ -10,20 +10,21 @@ block topic
         p.is-full-height.is-flex-shrink-0.is-flex.is-align-items-center.is-justify-content-center= __('click_back_to_the_top')
 
 block content
-    - var tocContent = toc(page.content, {list_number: false})
+    - var tocContent = toc(page.content, {list_number: true})
 
     main.container.is-max-widescreen.content.section.post-page.pt-4.px-4
+        include widget/methods
+        - var imgURL = getPostCoverImg(page)
+        if imgURL
+            div.post-cover-backdrop.is-hidden
+                img(src= imgURL alt="loading..")
         .columns.is-flex-desktop.is-justify-content-center.is-flex-direction-row-reverse
             .column.is-3.is-hidden-mobile(class= tocContent.length < 1 && 'is-hidden')!= tocContent
             .column.is-9
-                include widget/methods
-                    - var imgURL = getPostCoverImg(page)
-                    if imgURL
-                        div.is-relative.is-flex
-                            div.post-cover-backdrop.is-hidden
-                                img(src= imgURL alt="loading..")
-                            p.post-cover.has-text-centered.skeleton(href= postURL)
-                                img.js-img-fadeIn(src= imgURL alt="loading..", data-backdrop="true")
+                if imgURL
+                  div.is-relative.is-flex
+                      p.post-cover.has-text-centered.skeleton(href= postURL)
+                           img.js-img-fadeIn(src= imgURL alt="loading..", data-backdrop="true")
                 header.my-4
                     if page.tags && page.tags.length > 0
                         each tag in page.tags.toArray()
@@ -58,6 +59,8 @@ block content
                             theme= theme.comment_utteranc.theme || "preferred-color-scheme"
                         )
 block script
+    script(src=prismHead+'components/prism-core.min.js')
+    script(src= prismHead+'plugins/autoloader/prism-autoloader.min.js')
     script(src= url_for("/js/post.js"))
     include img-fadein
     +fadeinImg

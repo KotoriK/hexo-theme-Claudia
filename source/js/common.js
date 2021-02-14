@@ -37,9 +37,9 @@ window.$claudia = {
         const parent = image.parentElement //TODO: Not finish yes, must be a pure function
         const parentWidth = Math.round(parent.getBoundingClientRect().width)
         const childImgWidth = Math.round(image.getBoundingClientRect().width)
-        const vw20 = screen.availWidth * 0.2
-        const isCovered = (parentWidth - childImgWidth) < vw20
-        const blurImg = parent.previousElementSibling //TODO: Not finish yes, must be a pure function
+        const vw15 = screen.availWidth * 0.15
+        const isCovered = (parentWidth - childImgWidth) < vw15
+        const blurImg = parent.previousElementSibling ?? document.querySelector('.post-cover-backdrop') //TODO: Not finish yes, must be a pure function
 
         isCovered ? (blurImg.classList.add('is-hidden'), $claudia.adjust(parent, image, true)) : (blurImg.classList.remove('is-hidden'), $claudia.adjust(parent, image, false))
     },

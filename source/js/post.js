@@ -159,8 +159,6 @@ var $posts = {
         }
     },
     mounted: function () {
-        hljs && hljs.initHighlighting()
-
         var Scroller = this.scroller()
         var scrollerInstance = new Scroller()
 
@@ -174,6 +172,9 @@ var $posts = {
         $claudia.fadeInImage(document.querySelectorAll('.post-content img'))
 
         document.getElementById('postTopic').addEventListener('click', this.smoothScrollToTop)
+    },initHighlight:()=>{
+        Prism.plugins.autoloader.languages_path = 'https://cdn.jsdelivr.net/npm/prismjs@1.23.0/components/';
+
     }
 }
 
